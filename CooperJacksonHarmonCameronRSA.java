@@ -13,7 +13,19 @@ public class CooperJacksonHarmonCameronRSA
 		// Must implement Euclid's algorithm
 		// NO brute-forcing; violation will lead to zero points
 		// NO recursion; violation will lead to zero points
-        return 0;
+        // Ensure that both inputs are positive
+        inE = Math.abs(inE);
+        inZ = Math.abs(inZ);
+        
+        // Perform Euclid's algorithm iteratively
+        while (inZ != 0) {
+            int temp = inZ;
+            inZ = inE % inZ;
+            inE = temp;
+        }
+        
+        // The GCD is stored in 'inE' at this point
+        return inE;
 	}
 
 	public void testGcd () {
@@ -114,7 +126,6 @@ public class CooperJacksonHarmonCameronRSA
 		CooperJacksonHarmonCameronRSA atrsa = new CooperJacksonHarmonCameronRSA ();
 
 		System.out.println ("********** Small RSA Project output begins ********** ");
-
 		atrsa.testGcd ();
 		atrsa.testXgcd ();
 		atrsa.testKeygen ();
