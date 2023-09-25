@@ -92,8 +92,33 @@ public class CooperJacksonHarmonCameronRSA
 	}
 
 	public int[] keygen (int inP, int inQ, int inE) {
-		// TO BE FINISHED
-        return null;
+		int[] keys = new int[3]; // keys[0] = e, keys[1] = N, keys[2] = d
+    
+		// Calculate N and z
+		int N = inP * inQ;
+		int z = (inP - 1) * (inQ - 1);
+		
+		if (inE <= 1 || inE >= z || gcd(inE, z) != 1) {
+			// Generate a random co-prime e value if inE is invalid
+			Random random = new Random();
+			int e;
+			do {
+				e = random.nextInt(z - 2) + 2; // Random e between 2 and z-1
+			} while (gcd(e, z) != 1);
+			
+			keys[0] = e;
+		} else {
+			// Use the given inE value
+			keys[0] = inE;
+		}
+
+		// Set N
+		keys[1] = N;
+		
+		// Calculate d using the extended Euclidean algorithm
+		keys[2] = xgcd(keys[0], z);
+		
+		return keys;
 	}
 
 	//
