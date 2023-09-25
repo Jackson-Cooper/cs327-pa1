@@ -9,11 +9,6 @@ import java.util.Random;
 public class CooperJacksonHarmonCameronRSA
 {
 	public int gcd (int inE, int inZ) {
-		// TO BE FINISHED
-		// Must implement Euclid's algorithm
-		// NO brute-forcing; violation will lead to zero points
-		// NO recursion; violation will lead to zero points
-        // Ensure that both inputs are positive
         inE = Math.abs(inE);
         inZ = Math.abs(inZ);
         
@@ -48,11 +43,40 @@ public class CooperJacksonHarmonCameronRSA
 	//	inverse of inE mod inZ
 	//
 	public int xgcd (int inE, int inZ) {
-		// TO BE FINISHED
-		// Must implement the extended Euclidean algorithm
-		// NO brute-forcing; violation will lead to zero points
-		// NO recursion; violation will lead to zero points
-        return 0;
+        int x0 = 1;
+		int x1 = 0;
+		int y0 = 0;
+		int y1 = 1;
+
+		int tempZ = inZ;
+    
+    	while (inZ != 0) {
+			int quotient = inE / inZ;
+			int remainder = inE % inZ;
+			
+			int tempX = x0 - quotient * x1;
+			int tempY = y0 - quotient * y1;
+			
+			x0 = x1;
+			y0 = y1;
+			x1 = tempX;
+			y1 = tempY;
+			
+			inE = inZ;
+			inZ = remainder;
+		}
+
+		if (inE != 1){
+			// no multiplicative inverse exists
+			return -1;
+		}
+
+		if (x0 < 0) {
+			// result is non-negative
+			x0 += tempZ;
+		}
+    
+    	return x0;
 	}
 
 	public void testXgcd () {
