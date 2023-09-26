@@ -141,18 +141,33 @@ public class CooperJacksonHarmonCameronRSA
 	// For example, 5^20 is too big to be held by a Java primitive integer
 	//
 	public int modExp (int a, int b, int n) {
-		// TO BE FINISHED
-        return 0;
+		int x = 1;
+		int w = a; 
+		int y = b;
+		
+		while (y > 0) {
+			int t = y % 2;
+			y = y / 2;
+			if (t == 1) { 
+				long xLong = x * w; 
+				x = (int) (xLong % n);
+			}
+			
+			long wLong = w * w;
+			w = (int) (wLong % n);
+		}
+
+		return x;
 	}
 
 	public int encrypt (int message, int inE, int inN) {
-		// TO BE FINISHED
-        return 0;
+        // Calculate c = message^e mod N using modExp
+        return modExp(message, inE, inN);
 	}
 
 	public int decrypt (int ciphertext, int inD, int inN) {
-		// TO BE FINISHED
-        return 0;
+        // Calculate m = ciphertext^d mod N using modExp
+        return modExp(ciphertext, inD, inN);
 	}
 
 	public void testRSA () {
